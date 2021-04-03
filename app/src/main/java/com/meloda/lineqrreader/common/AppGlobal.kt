@@ -15,11 +15,11 @@ class AppGlobal : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        cameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
-
         database = Room.databaseBuilder(this, AppDatabase::class.java, "cache")
             .fallbackToDestructiveMigration()
             .build()
+
+        cameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
     }
 
 }

@@ -22,7 +22,7 @@ interface SimpleItemDao {
     suspend fun delete(items: List<SimpleItem>)
 
     @Query("DELETE FROM items WHERE id = :id")
-    suspend fun deleteById(id: String)
+    suspend fun deleteById(id: Int)
 
     @Query("DELETE FROM items")
     suspend fun clear()

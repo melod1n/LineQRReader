@@ -27,9 +27,7 @@ class ScannerUtil(
     private var surfaceTexture: SurfaceTexture? = null
     private var surface: Surface? = null
 
-    private var longScan = true
-
-//    private val isContinuous = false
+    var isContinuous: Boolean? = null
 
     private val cameraState = object : CameraCaptureSession.StateCallback() {
         override fun onConfigured(session: CameraCaptureSession) {
@@ -47,7 +45,6 @@ class ScannerUtil(
         }
 
         override fun onConfigureFailed(session: CameraCaptureSession) {
-            val i = 9
         }
 
     }
@@ -68,25 +65,22 @@ class ScannerUtil(
     fun release() {
         releaseCamera()
         scanner?.deleteInstance()
+        scanner = null
     }
 
     fun startDecoding() {
         scanner?.startDecode()
 
-        longScan = true
-
-//        if (isContinuous) longScan = true
+        isContinuous = true
     }
 
     fun stopDecoding() {
         scanner?.stopDecode()
 
-        longScan = false
-
-//        if (isContinuous) longScan = false
+        isContinuous = false
     }
 
-    fun openCamera() {
+    private fun openCamera() {
         if (context.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) return
 
         try {
@@ -96,7 +90,7 @@ class ScannerUtil(
         }
     }
 
-    fun releaseCamera() {
+    private fun releaseCamera() {
         cameraCaptureSession?.close()
         cameraDevice?.close()
         surfaceTexture?.release()
@@ -108,12 +102,12 @@ class ScannerUtil(
     }
 
     override fun scanStart() {
-        if (longScan) scanner?.startDecode()
+        if (isContinuous == true) scanner?.startDecode()
     }
 
     override fun scanResult(sym: String, content: String) {
         listener.onResult(sym, content)
-        longScan = false
+//        longScan = false
     }
 
     override fun onOpened(camera: CameraDevice) {
@@ -127,11 +121,9 @@ class ScannerUtil(
     }
 
     override fun onDisconnected(camera: CameraDevice) {
-        val i = 0
     }
 
     override fun onError(camera: CameraDevice, error: Int) {
-        val i = 9
     }
 
 }
