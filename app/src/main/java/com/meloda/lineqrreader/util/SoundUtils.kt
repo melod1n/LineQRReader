@@ -17,7 +17,7 @@ object SoundUtils {
                 descriptor.length
             )
 
-            player.setVolume(0.1f, 0.1f)
+            player.setVolume(0.05f, 0.05f)
             player.setOnPreparedListener(MediaPlayer::start)
             player.setOnCompletionListener(MediaPlayer::release)
             player.prepare()

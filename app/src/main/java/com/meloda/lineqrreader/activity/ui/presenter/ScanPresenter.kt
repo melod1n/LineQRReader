@@ -58,6 +58,9 @@ class ScanPresenter(viewState: ScanView) :
 
         scanHandler = object : Handler((requireContext() as ScanActivity).mainLooper) {
             override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+                msg.obj ?: return
+
                 scanUtil?.isContinuous = false
                 val item = SimpleItem()
 
@@ -119,7 +122,6 @@ class ScanPresenter(viewState: ScanView) :
     fun onResume() {
         scanUtil = ScannerUtil(requireContext(), object : ScannerResultListener {
             override fun onResult(sym: String, content: String) {
-//                scanUtil?.isContinuous = false
                 scanHandler.sendMessage(Message().also { it.obj = content })
             }
         })
@@ -169,7 +171,10 @@ class ScanPresenter(viewState: ScanView) :
 
     private suspend fun removeItemsFromAdapter(items: ArrayList<SimpleItem>) {
         adapter.values.removeAll(items)
-        withContext(Dispatchers.Main) { adapter.notifyDataSetChanged() }
+        withContext(Dispatchers.Main) {
+            viewState.setMenuDeleteItemVisible(false)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     private suspend fun updateItems(items: List<SimpleItem>) {

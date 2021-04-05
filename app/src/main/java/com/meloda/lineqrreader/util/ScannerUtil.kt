@@ -27,15 +27,14 @@ class ScannerUtil(
     private var surfaceTexture: SurfaceTexture? = null
     private var surface: Surface? = null
 
-    var isContinuous: Boolean? = null
+    var isContinuous: Boolean = false
 
     private val cameraState = object : CameraCaptureSession.StateCallback() {
         override fun onConfigured(session: CameraCaptureSession) {
             cameraCaptureSession = session
 
             try {
-                val builder =
-                    cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                val builder = cameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
                 builder.addTarget(surface!!)
 
                 session.setRepeatingRequest(builder.build(), null, null)
@@ -102,12 +101,17 @@ class ScannerUtil(
     }
 
     override fun scanStart() {
-        if (isContinuous == true) scanner?.startDecode()
+        if (isContinuous) {
+            scanner?.startDecode()
+//            isContinuous = false
+        }
     }
 
     override fun scanResult(sym: String, content: String) {
         listener.onResult(sym, content)
-//        longScan = false
+//        releaseCamera()
+//        openCamera()
+        isContinuous = false
     }
 
     override fun onOpened(camera: CameraDevice) {
