@@ -1,0 +1,1 @@
+adb shell pm enable --user 0 com.xcheng.scannere3
