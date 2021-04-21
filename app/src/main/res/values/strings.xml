@@ -1,3 +1,21 @@
 <resources>
+
     <string name="app_name">LineQRReader</string>
+
+    <string name="error_default_text">There is something unexpected&#8230;</string>
+    <string name="error_with_message">Error: %s</string>
+
+    <string name="action_menu_delete">Delete</string>
+
+    <string name="warning">Warning</string>
+
+    <string name="delete_scans_message">Are you sure want to delete these items?</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="auth_title">Authorization</string>
+    <string name="auth_message">Enter your phone number, we\'ll send you a code to confirm</string>
+    <string name="next">Next</string>
+
 </resources>

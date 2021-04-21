@@ -1,8 +1,25 @@
 <resources>
 
-    <style name="Theme.LineQRReader" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
+    <style name="Theme.LineQRReader" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/blue_light</item>
+
+        <item name="toolbarStyle">@style/Theme.Toolbar</item>
+
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/white</item>
+
+        <item name="android:textAppearanceMedium">@style/Theme.Text.Medium</item>
     </style>
+
+    <style name="Theme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:layout_height">?actionBarSize</item>
+    </style>
+
+    <style name="Theme.Text.Medium" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

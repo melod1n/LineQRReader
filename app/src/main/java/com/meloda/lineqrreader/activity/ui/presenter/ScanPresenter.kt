@@ -9,6 +9,8 @@ import android.os.Message
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
+import com.meloda.lineqrreader.R
 import com.meloda.lineqrreader.activity.ScanActivity
 import com.meloda.lineqrreader.activity.ui.repository.ScanRepository
 import com.meloda.lineqrreader.activity.ui.view.ScanView
@@ -75,6 +77,7 @@ class ScanPresenter(viewState: ScanView) :
                     adapter.add(item)
 
                     withContext(Dispatchers.Main) {
+                        viewState.invalidateTitleCounter()
                         adapter.notifyDataSetChanged()
                     }
                 }
@@ -122,6 +125,7 @@ class ScanPresenter(viewState: ScanView) :
     fun onResume() {
         scanUtil = ScannerUtil(requireContext(), object : ScannerResultListener {
             override fun onResult(sym: String, content: String) {
+                if (content.isBlank()) return
                 scanHandler.sendMessage(Message().also { it.obj = content })
             }
         })
@@ -133,8 +137,13 @@ class ScanPresenter(viewState: ScanView) :
         scanUtil?.release()
     }
 
+    val itemCount get() = adapter.itemCount
+
     fun onKeyDown(keyCode: Int): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_F11 || keyCode == 280 || keyCode == 281) {
+        if (keyCode == KeyEvent.KEYCODE_F11 ||
+            keyCode == KeyEvent.KEYCODE_SYSTEM_NAVIGATION_UP ||
+            keyCode == KeyEvent.KEYCODE_SYSTEM_NAVIGATION_DOWN
+        ) {
             if (isButtonPressed) return true
 
             scanUtil?.startDecoding()
@@ -149,7 +158,10 @@ class ScanPresenter(viewState: ScanView) :
     }
 
     fun onKeyUp(keyCode: Int): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_F11 || keyCode == 280 || keyCode == 281) {
+        if (keyCode == KeyEvent.KEYCODE_F11 ||
+            keyCode == KeyEvent.KEYCODE_SYSTEM_NAVIGATION_UP ||
+            keyCode == KeyEvent.KEYCODE_SYSTEM_NAVIGATION_DOWN
+        ) {
             if (!isButtonPressed) return true
 
             scanUtil?.stopDecoding()
@@ -173,6 +185,7 @@ class ScanPresenter(viewState: ScanView) :
         adapter.values.removeAll(items)
         withContext(Dispatchers.Main) {
             viewState.setMenuDeleteItemVisible(false)
+            viewState.invalidateTitleCounter()
             adapter.notifyDataSetChanged()
         }
     }
@@ -181,17 +194,30 @@ class ScanPresenter(viewState: ScanView) :
         if (items.isEmpty()) return
 
         adapter.updateValues(items)
-        withContext(Dispatchers.Main) { adapter.notifyDataSetChanged() }
+
+        withContext(Dispatchers.Main) {
+            viewState.invalidateTitleCounter()
+            adapter.notifyDataSetChanged()
+        }
     }
 
     fun setDeleteMenuItemClickListener(item: MenuItem) {
         item.setOnMenuItemClickListener {
-            val selectedItems = adapter.getSelectedItems()
-            GlobalScope.launch(Dispatchers.IO) {
-                AppGlobal.database.itemsDao.delete(selectedItems)
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle(R.string.warning)
+            builder.setMessage(R.string.delete_scans_message)
+            builder.setPositiveButton(R.string.yes) { _, _ ->
+                val selectedItems = adapter.getSelectedItems()
+                GlobalScope.launch(Dispatchers.IO) {
+                    AppGlobal.database.itemsDao.delete(selectedItems)
 
-                removeItemsFromAdapter(selectedItems)
+                    removeItemsFromAdapter(selectedItems)
+                }
             }
+            builder.setNegativeButton(R.string.no, null)
+            builder.show()
+
+
             true
         }
     }

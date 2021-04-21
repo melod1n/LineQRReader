@@ -11,4 +11,6 @@ interface ScanView : MvpView {
 
     fun setMenuDeleteItemVisible(isVisible: Boolean)
 
+    fun invalidateTitleCounter()
+
 }

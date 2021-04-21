@@ -24,6 +24,7 @@
         </activity>
 
         <activity android:name=".activity.ScanActivity" />
+        <activity android:name=".activity.AuthActivity" />
     </application>
 
 </manifest>

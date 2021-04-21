@@ -3,18 +3,18 @@ package com.meloda.lineqrreader.activity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
-import android.view.MenuItem
 import android.viewbinding.library.activity.viewBinding
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.meloda.lineqrreader.R
 import com.meloda.lineqrreader.activity.ui.presenter.ScanPresenter
 import com.meloda.lineqrreader.activity.ui.view.ScanView
 import com.meloda.lineqrreader.adapter.SimpleItemAdapter
+import com.meloda.lineqrreader.base.BaseActivity
 import com.meloda.lineqrreader.base.BaseAdapter
 import com.meloda.lineqrreader.databinding.ActivityScanBinding
 
-class ScanActivity : AppCompatActivity(), BaseAdapter.ItemClickListener, ScanView {
+class ScanActivity : BaseActivity(R.layout.activity_scan), BaseAdapter.ItemClickListener, ScanView {
 
     private val binding: ActivityScanBinding by viewBinding()
 
@@ -24,7 +24,8 @@ class ScanActivity : AppCompatActivity(), BaseAdapter.ItemClickListener, ScanVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
 
         presenter = ScanPresenter(this)
         presenter.onCreate(this, savedInstanceState)
@@ -71,6 +72,11 @@ class ScanActivity : AppCompatActivity(), BaseAdapter.ItemClickListener, ScanVie
         invalidateOptionsMenu()
     }
 
+    override fun invalidateTitleCounter() {
+        title = if (presenter.itemCount == 0) getString(R.string.app_name)
+        else "%s (%d)".format(getString(R.string.app_name), presenter.itemCount)
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -81,17 +87,17 @@ class ScanActivity : AppCompatActivity(), BaseAdapter.ItemClickListener, ScanVie
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val item = menu.add("Delete")
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        menuInflater.inflate(R.menu.activity_scan, menu)
+
+        val item = menu.findItem(R.id.menuDelete)
+        presenter.setDeleteMenuItemClickListener(item)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val item = menu.getItem(0)
+        val item = menu.findItem(R.id.menuDelete)
 
         item.isVisible = isMenuDeleteItemVisible
-
-        presenter.setDeleteMenuItemClickListener(item)
 
         return super.onPrepareOptionsMenu(menu)
     }
