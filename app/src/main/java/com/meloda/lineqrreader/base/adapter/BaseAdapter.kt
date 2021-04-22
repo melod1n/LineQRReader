@@ -1,29 +1,39 @@
-package com.meloda.lineqrreader.base
+package com.meloda.lineqrreader.base.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.add
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.addAll
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.clear
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.get
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.isEmpty
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.isNotEmpty
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.plusAssign
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.set
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.size
 
-
-@Suppress("UNCHECKED_CAST")
+@Suppress("UNCHECKED_CAST", "unused", "MemberVisibilityCanBePrivate", "CanBeParameter")
 abstract class BaseAdapter<Item, VH : BaseHolder>(
     var context: Context,
-    var values: ArrayList<Item> = arrayListOf()
+    values: ArrayList<Item>
 ) : RecyclerView.Adapter<VH>() {
 
-    companion object {
-        private const val P_ITEMS = "BaseAdapter.values"
-    }
-
-    private var cleanValues: ArrayList<Item>? = null
+    val cleanValues = MutableLiveData<MutableList<Item>>(arrayListOf())
+    val values = MutableLiveData<MutableList<Item>>(arrayListOf())
 
     private var inflater: LayoutInflater = LayoutInflater.from(context)
 
-    var itemClickListener: ItemClickListener? = null
-    var itemLongClickListener: ItemLongClickListener? = null
+    init {
+        this.values.value = values
+    }
+
+    var itemClickListener: OnItemClickListener? = null
+    var itemLongClickListener: OnItemLongClickListener? = null
 
     open fun destroy() {
         itemClickListener = null
@@ -35,35 +45,34 @@ abstract class BaseAdapter<Item, VH : BaseHolder>(
     }
 
     fun add(position: Int, item: Item) {
-        values.add(position, item)
-        cleanValues?.add(position, item)
+        values.add(item, position)
+        cleanValues.add(item, position)
     }
 
     fun add(item: Item) {
-        values.add(item)
-        cleanValues?.add(item)
+        values += item
+        cleanValues.add(item)
     }
 
     fun addAll(items: List<Item>) {
-        values.addAll(items)
-        cleanValues?.addAll(items)
+        values += items
+        cleanValues.addAll(items)
     }
 
     fun addAll(position: Int, items: List<Item>) {
-        values.addAll(position, items)
-        cleanValues?.addAll(position, items)
+        values.addAll(items, position)
+        cleanValues.addAll(items, position)
     }
 
     operator fun set(position: Int, item: Item) {
         values[position] = item
-        cleanValues?.set(position, item)
+        cleanValues[position] = item
     }
 
-    open fun notifyChanges(oldList: List<Item>, newList: List<Item> = values) {}
+    open fun notifyChanges(oldList: List<Item>, newList: List<Item>) {}
 
-    fun isEmpty() = values.isNullOrEmpty()
-
-    fun isNotEmpty() = !isEmpty()
+    fun isEmpty() = values.isEmpty()
+    fun isNotEmpty() = values.isNotEmpty()
 
     fun view(resId: Int, viewGroup: ViewGroup, attachToRoot: Boolean = false): View {
         return inflater.inflate(resId, viewGroup, attachToRoot)
@@ -71,7 +80,7 @@ abstract class BaseAdapter<Item, VH : BaseHolder>(
 
     fun updateValues(arrayList: ArrayList<Item>) {
         values.clear()
-        values.addAll(arrayList)
+        values += arrayList
     }
 
     fun updateValues(list: List<Item>) = updateValues(ArrayList(list))
@@ -100,14 +109,6 @@ abstract class BaseAdapter<Item, VH : BaseHolder>(
     private fun onBindItemViewHolder(holder: VH, position: Int) {
         initListeners(holder.itemView, position)
         holder.bind(position)
-    }
-
-    interface ItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
-    interface ItemLongClickListener {
-        fun onItemLongClick(position: Int)
     }
 
 }

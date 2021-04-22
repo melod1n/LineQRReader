@@ -1,5 +1,6 @@
 package com.meloda.lineqrreader.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
@@ -11,38 +12,36 @@ import com.meloda.lineqrreader.activity.ui.presenter.ScanPresenter
 import com.meloda.lineqrreader.activity.ui.view.ScanView
 import com.meloda.lineqrreader.adapter.SimpleItemAdapter
 import com.meloda.lineqrreader.base.BaseActivity
-import com.meloda.lineqrreader.base.BaseAdapter
+import com.meloda.lineqrreader.base.adapter.OnItemClickListener
 import com.meloda.lineqrreader.databinding.ActivityScanBinding
+import moxy.ktx.moxyPresenter
 
-class ScanActivity : BaseActivity(R.layout.activity_scan), BaseAdapter.ItemClickListener, ScanView {
+class ScanActivity : BaseActivity(R.layout.activity_scan), OnItemClickListener, ScanView {
 
     private val binding: ActivityScanBinding by viewBinding()
-
-    private lateinit var presenter: ScanPresenter
+    private val presenter: ScanPresenter by moxyPresenter { ScanPresenter(this) }
 
     private var isMenuDeleteItemVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setSupportActionBar(binding.toolbar)
-
-        presenter = ScanPresenter(this)
-        presenter.onCreate(this, savedInstanceState)
+        startActivity(Intent(this, AuthActivity::class.java))
     }
 
     override fun prepareViews() {
         prepareRecyclerView()
+        prepareToolbar()
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.onResume()
+        presenter.initScanner()
     }
 
     override fun onPause() {
         super.onPause()
-        presenter.onPause()
+        presenter.releaseScanner()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -61,6 +60,10 @@ class ScanActivity : BaseActivity(R.layout.activity_scan), BaseAdapter.ItemClick
 
     private fun prepareRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+    }
+
+    private fun prepareToolbar() {
+        setSupportActionBar(binding.toolbar)
     }
 
     override fun setRecyclerViewAdapter(adapter: SimpleItemAdapter) {
@@ -100,63 +103,6 @@ class ScanActivity : BaseActivity(R.layout.activity_scan), BaseAdapter.ItemClick
         item.isVisible = isMenuDeleteItemVisible
 
         return super.onPrepareOptionsMenu(menu)
-    }
-
-    //default MvpView methods
-    override fun hideErrorView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun hideNoInternetView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun hideNoItemsView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun hideProgressBar() {
-        TODO("Not yet implemented")
-    }
-
-    override fun hideRefreshLayout() {
-        TODO("Not yet implemented")
-    }
-
-    override fun prepareErrorView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun prepareNoInternetView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun prepareNoItemsView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showErrorSnackbar(t: Throwable) {
-        TODO("Not yet implemented")
-    }
-
-    override fun showErrorView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showNoInternetView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showNoItemsView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showProgressBar() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showRefreshLayout() {
-        TODO("Not yet implemented")
     }
 
 }

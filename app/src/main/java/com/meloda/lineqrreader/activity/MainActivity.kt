@@ -3,25 +3,15 @@ package com.meloda.lineqrreader.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.viewbinding.library.activity.viewBinding
-import com.meloda.lineqrreader.R
 import com.meloda.lineqrreader.base.BaseActivity
-import com.meloda.lineqrreader.databinding.ActivityMainBinding
 
-class MainActivity : BaseActivity(R.layout.activity_main) {
-
-    private val binding: ActivityMainBinding by viewBinding()
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setSupportActionBar(binding.toolbar)
-
-        startActivity(Intent(this, AuthActivity::class.java))
-
-        binding.openScanScreen.setOnClickListener {
-            openScanScreen()
-        }
+        openScanScreen()
+        finish()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

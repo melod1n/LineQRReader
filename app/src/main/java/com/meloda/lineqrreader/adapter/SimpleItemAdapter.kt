@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import com.meloda.lineqrreader.R
-import com.meloda.lineqrreader.base.BaseAdapter
-import com.meloda.lineqrreader.base.BaseHolder
+import com.meloda.lineqrreader.base.adapter.BaseAdapter
+import com.meloda.lineqrreader.base.adapter.BaseHolder
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.iterator
 import com.meloda.lineqrreader.model.SimpleItem
 
 class SimpleItemAdapter(context: Context, items: ArrayList<SimpleItem> = arrayListOf()) :
@@ -17,12 +18,10 @@ class SimpleItemAdapter(context: Context, items: ArrayList<SimpleItem> = arrayLi
         return ViewHolder(view(R.layout.item, parent))
     }
 
-    fun getSelectedItems(): ArrayList<SimpleItem> {
-        val items = arrayListOf<SimpleItem>()
-        for (item in values) if (item.isSelected) items.add(item)
-
-        return items
-    }
+    val selectedItems
+        get() = ArrayList<SimpleItem>().apply {
+            for (item in values) if (item.isSelected) add(item)
+        }
 
     fun toggleSelection(position: Int) {
         val item = getItem(position)

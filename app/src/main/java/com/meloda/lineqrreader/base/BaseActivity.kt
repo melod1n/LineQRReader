@@ -3,12 +3,12 @@ package com.meloda.lineqrreader.base
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import moxy.MvpAppCompatActivity
 
-abstract class BaseActivity : AppCompatActivity, LifecycleOwner {
+abstract class BaseActivity : MvpAppCompatActivity, LifecycleOwner {
 
     constructor() : super()
 

@@ -4,11 +4,7 @@ package com.xcheng.scannere3
 object XCScanner {
 
     init {
-        try {
-            System.loadLibrary("XCScanner")
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        System.loadLibrary("XCScanner")
     }
 
     interface Result {

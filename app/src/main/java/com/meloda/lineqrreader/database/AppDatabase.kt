@@ -7,7 +7,8 @@ import com.meloda.lineqrreader.model.SimpleItem
 
 @Database(
     entities = [SimpleItem::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 

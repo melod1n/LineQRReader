@@ -13,7 +13,7 @@
         <item name="android:textAppearanceMedium">@style/Theme.Text.Medium</item>
     </style>
 
-    <style name="Theme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+    <style name="Theme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:layout_height">?actionBarSize</item>
     </style>
 

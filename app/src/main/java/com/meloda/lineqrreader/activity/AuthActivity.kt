@@ -10,17 +10,16 @@ import com.meloda.lineqrreader.activity.ui.view.AuthView
 import com.meloda.lineqrreader.base.BaseActivity
 import com.meloda.lineqrreader.databinding.ActivityAuthBinding
 import kotlinx.coroutines.launch
+import moxy.ktx.moxyPresenter
 
 class AuthActivity : BaseActivity(R.layout.activity_auth), AuthView {
 
     private val binding: ActivityAuthBinding by viewBinding()
-    private lateinit var presenter: AuthPresenter
+
+    private val presenter by moxyPresenter { AuthPresenter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        presenter = AuthPresenter(this)
-        presenter.onCreate(this, savedInstanceState)
 
         binding.number.setSelection(2)
 
@@ -32,9 +31,9 @@ class AuthActivity : BaseActivity(R.layout.activity_auth), AuthView {
                     binding.number.setText(def)
                     binding.number.setSelection(2)
                 }
-                else {
-
-                }
+//                else {
+//
+//                }
             }
         }
 
@@ -50,67 +49,8 @@ class AuthActivity : BaseActivity(R.layout.activity_auth), AuthView {
         })
 
         requireRootView().setOnClickListener {
-            lifecycleScope.launch {
-                presenter.sendPhoneNumber("a")
-            }
+            lifecycleScope.launch { presenter.sendPhoneNumber() }
         }
-    }
-
-    //default mvp methods
-    override fun hideErrorView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun hideNoInternetView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun hideNoItemsView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun hideProgressBar() {
-        TODO("Not yet implemented")
-    }
-
-    override fun hideRefreshLayout() {
-        TODO("Not yet implemented")
-    }
-
-    override fun prepareErrorView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun prepareNoInternetView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun prepareNoItemsView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showErrorSnackbar(t: Throwable) {
-        TODO("Not yet implemented")
-    }
-
-    override fun showErrorView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showNoInternetView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showNoItemsView() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showProgressBar() {
-        TODO("Not yet implemented")
-    }
-
-    override fun showRefreshLayout() {
-        TODO("Not yet implemented")
     }
 
 }

@@ -9,13 +9,15 @@
 
     <string name="warning">Warning</string>
 
-    <string name="delete_scans_message">Are you sure want to delete these items?</string>
+    <string name="delete_scans_message">Are you sure want to delete these scans?</string>
+    <string name="delete_all_scans_message">Are you sure want to delete all scans?</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
     <string name="auth_title">Authorization</string>
     <string name="auth_message">Enter your phone number, we\'ll send you a code to confirm</string>
+
     <string name="next">Next</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.meloda.lineqrreader.base
+package com.meloda.lineqrreader.base.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

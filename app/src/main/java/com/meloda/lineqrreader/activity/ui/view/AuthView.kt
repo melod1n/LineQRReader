@@ -1,6 +1,6 @@
 package com.meloda.lineqrreader.activity.ui.view
 
-import com.meloda.mvp.MvpView
+import moxy.MvpView
 
 interface AuthView : MvpView {
 }

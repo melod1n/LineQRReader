@@ -1,4 +1,4 @@
-package com.meloda.lineqrreader.util
+package com.meloda.lineqrreader.scanner
 
 import android.Manifest
 import android.content.Context
@@ -9,6 +9,7 @@ import android.hardware.camera2.CameraDevice
 import android.view.Surface
 import com.meloda.lineqrreader.common.AppGlobal
 import com.meloda.lineqrreader.listener.ScannerResultListener
+import com.meloda.lineqrreader.util.SoundUtils
 import com.xcheng.scannere3.XCScanner
 import java.util.*
 
@@ -69,14 +70,10 @@ class ScannerUtil(
 
     fun startDecoding() {
         scanner?.startDecode()
-
-        isContinuous = true
     }
 
     fun stopDecoding() {
         scanner?.stopDecode()
-
-        isContinuous = false
     }
 
     private fun openCamera() {
@@ -103,17 +100,14 @@ class ScannerUtil(
     override fun scanStart() {
         if (isContinuous) {
             scanner?.startDecode()
-//            isContinuous = false
         }
     }
 
     override fun scanResult(sym: String, content: String) {
         listener.onResult(sym, content)
-//        releaseCamera()
-//        openCamera()
-        isContinuous = false
     }
 
+    @Suppress("DEPRECATION")
     override fun onOpened(camera: CameraDevice) {
         cameraDevice = camera
 
