@@ -8,8 +8,8 @@ import android.viewbinding.library.activity.viewBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meloda.lineqrreader.R
-import com.meloda.lineqrreader.activity.ui.presenter.ScanPresenter
-import com.meloda.lineqrreader.activity.ui.view.ScanView
+import com.meloda.lineqrreader.activity.ui.ScanPresenter
+import com.meloda.lineqrreader.activity.ui.ScanView
 import com.meloda.lineqrreader.adapter.SimpleItemAdapter
 import com.meloda.lineqrreader.base.BaseActivity
 import com.meloda.lineqrreader.base.adapter.OnItemClickListener

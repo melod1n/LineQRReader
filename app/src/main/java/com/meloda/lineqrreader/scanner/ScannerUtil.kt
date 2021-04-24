@@ -58,7 +58,7 @@ class ScannerUtil(
     fun init() {
         openCamera()
 
-//        scanner = XCScanner.newInstance()
+        scanner = XCScanner.newInstance()
         scanner?.onScanListener(this)
     }
 

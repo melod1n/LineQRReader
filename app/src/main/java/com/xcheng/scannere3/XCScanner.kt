@@ -4,7 +4,7 @@ package com.xcheng.scannere3
 object XCScanner {
 
     init {
-//        System.loadLibrary("XCScanner")
+        System.loadLibrary("XCScanner")
     }
 
     interface Result {

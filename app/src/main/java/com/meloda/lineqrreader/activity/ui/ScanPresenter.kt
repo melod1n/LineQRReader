@@ -1,4 +1,4 @@
-package com.meloda.lineqrreader.activity.ui.presenter
+package com.meloda.lineqrreader.activity.ui
 
 import android.Manifest
 import android.content.Context
@@ -9,7 +9,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import com.meloda.lineqrreader.R
 import com.meloda.lineqrreader.activity.ScanActivity
-import com.meloda.lineqrreader.activity.ui.view.ScanView
 import com.meloda.lineqrreader.adapter.SimpleItemAdapter
 import com.meloda.lineqrreader.base.adapter.OnItemLongClickListener
 import com.meloda.lineqrreader.common.AppGlobal

@@ -1,4 +1,4 @@
-package com.meloda.lineqrreader.activity.ui.view
+package com.meloda.lineqrreader.activity.ui
 
 import com.meloda.lineqrreader.adapter.SimpleItemAdapter
 import moxy.MvpView

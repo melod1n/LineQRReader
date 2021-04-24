@@ -15,7 +15,9 @@
         android:theme="@style/Theme.LineQRReader"
         tools:ignore="AllowBackup">
 
-        <activity android:name=".activity.MainActivity">
+        <activity
+            android:name=".activity.MainActivity"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,8 +25,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.ScanActivity" />
-        <activity android:name=".activity.AuthActivity" />
+        <activity
+            android:name=".activity.ScanActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".activity.AuthActivity"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

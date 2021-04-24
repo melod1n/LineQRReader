@@ -6,6 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatActivity
 
 abstract class BaseActivity : MvpAppCompatActivity, LifecycleOwner {
@@ -41,5 +42,7 @@ abstract class BaseActivity : MvpAppCompatActivity, LifecycleOwner {
     val rootView: View? get() = findViewById(android.R.id.content)
 
     fun requireRootView() = rootView!!
+
+    var errorSnackbar: Snackbar? = null
 
 }
