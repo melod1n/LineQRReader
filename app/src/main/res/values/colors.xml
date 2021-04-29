@@ -10,4 +10,16 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="inventory">#7B00FF</color>
+    <color name="pause">#F2296F</color>
+
+    <color name="toolbar_action">#EB5757</color>
+
+    <color name="collecting">#F2994A</color>
+
+    <color name="orders_queue">#F2F2F2</color>
+
+    <color name="divider">#F2F2F2</color>
+
 </resources>

@@ -3,6 +3,7 @@
 
     <declare-styleable name="CodeEditText">
         <attr name="numberCount" format="integer" />
+        <attr name="showKeyboardOnFocus" format="boolean" />
     </declare-styleable>
 
 </resources>

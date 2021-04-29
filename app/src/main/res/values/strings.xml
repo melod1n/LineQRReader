@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">LineQRReader</string>
+    <string name="app_name" translatable="false">Project.Sklad</string>
 
     <string name="error_default_text">There is something unexpected&#8230;</string>
     <string name="error_with_message">Error: %s</string>
@@ -18,11 +18,47 @@
     <string name="no">No</string>
 
     <string name="auth_title">Authorization</string>
+    <string name="inventory_title">Inventory</string>
+
     <string name="auth_enter_phone_number_message">Enter your phone number, we\'ll send you a code to confirm</string>
     <string name="auth_enter_code_message">Enter code from sms</string>
 
     <string name="next">Next</string>
 
     <string name="send_code_again">Send the code again</string>
+
+    <string name="inventory">Inventory</string>
+
+    <string name="pause">Pause</string>
+
+    <string name="no_active_orders">No active orders</string>
+
+    <string name="logout">Logout</string>
+
+    <string name="start_collecting">Start collecting</string>
+
+    <string name="order_number">Order №%d</string>
+
+    <string name="orders_queue_number">There are %d %s in the queue</string>
+
+    <string name="order">Order</string>
+
+    <string name="orders">Orders</string>
+
+    <string name="count_short">Count</string>
+    <string name="cell_num">№ of cell</string>
+
+    <string name="count_num">%d pc</string>
+    <string name="collecting_title">Collecting</string>
+
+    <string name="end_collecting">End collecting</string>
+
+    <string name="remain_positions_with_numbers">Remain collect %d/%d positions</string>
+    <string name="all_positions_collected">All positions collected</string>
+    <string name="unassembled_products">Unassembled products</string>
+    <string name="assembled_products">Assembled products</string>
+
+    <string name="minute_short">M</string>
+    <string name="second_short">S</string>
 
 </resources>

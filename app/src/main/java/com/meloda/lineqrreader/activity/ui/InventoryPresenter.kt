@@ -5,65 +5,70 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
 import android.view.KeyEvent
-import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import com.meloda.lineqrreader.R
-import com.meloda.lineqrreader.activity.ScanActivity
-import com.meloda.lineqrreader.adapter.SimpleItemAdapter
+import com.meloda.lineqrreader.activity.InventoryActivity
+import com.meloda.lineqrreader.adapter.InventoryAdapter
 import com.meloda.lineqrreader.base.adapter.OnItemLongClickListener
 import com.meloda.lineqrreader.common.AppGlobal
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.removeAll
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.requireValue
+import com.meloda.lineqrreader.listener.OnCompleteListener
 import com.meloda.lineqrreader.listener.ScannerResultListener
-import com.meloda.lineqrreader.model.SimpleItem
+import com.meloda.lineqrreader.model.InventoryItem
 import com.meloda.lineqrreader.scanner.ScannerUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import moxy.MvpPresenter
 import moxy.presenterScope
+import kotlin.random.Random
 
-class ScanPresenter(
-    private var context: Context
-) : MvpPresenter<ScanView>(), OnItemLongClickListener {
+class InventoryPresenter() : MvpPresenter<InventoryView>(), OnItemLongClickListener {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION = 1
 
-        private val TAG = ScanPresenter::class.java.name
+        private val TAG = InventoryPresenter::class.java.name
     }
 
+    private lateinit var adapter: InventoryAdapter
+    private lateinit var context: Context
+
     private var scanUtil: ScannerUtil? = null
-
-    private lateinit var adapter: SimpleItemAdapter
-
-    private val database = AppGlobal.database.itemsDao
-
     private var isButtonPressed = false
-
     private var lastId = 0
+
+    private val database = AppGlobal.database.inventory
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
-        checkCameraPermission()
-
         viewState.prepareViews()
-        viewState.setRecyclerViewAdapter(initAdapter())
 
-        loadCachedItems()
+        viewState.createAdapter(object : OnCompleteListener<InventoryAdapter> {
+            override fun onComplete(item: InventoryAdapter) {
+                context = item.context
+
+                checkCameraPermission()
+
+                initAdapter(item)
+
+                loadCachedItems()
+            }
+        })
     }
 
-    private fun initAdapter(): SimpleItemAdapter {
-        return SimpleItemAdapter(context).also {
+    private fun initAdapter(adapter: InventoryAdapter) {
+        this.adapter = adapter.also {
             it.itemLongClickListener = this
-            adapter = it
         }
     }
 
+
     private fun checkCameraPermission() {
         if (context.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            (context as ScanActivity).requestPermissions(
+            (context as InventoryActivity).requestPermissions(
                 arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION
             )
         }
@@ -72,8 +77,14 @@ class ScanPresenter(
     private fun loadCachedItems() = presenterScope.launch {
         val cachedItems = database.getAll()
 
-        if (cachedItems.isNotEmpty())
+        if (cachedItems.isNotEmpty()) {
             lastId = cachedItems[cachedItems.size - 1].id
+
+            cachedItems.forEach {
+                it.count = Random.nextInt(2, 100)
+                it.number = "A${Random.nextInt(1000, 9999)}"
+            }
+        }
 
         updateItems(cachedItems)
     }
@@ -119,7 +130,7 @@ class ScanPresenter(
             isButtonPressed = true
             return true
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            (context as ScanActivity).onBackPressed()
+            (context as InventoryActivity).onBackPressed()
             return true
         }
 
@@ -141,13 +152,12 @@ class ScanPresenter(
         return false
     }
 
-    fun toggleAdapterItemSelection(position: Int) {
-        adapter.toggleSelection(position)
-        viewState.setMenuDeleteItemVisible(adapter.selectedItems.isNotEmpty())
+    fun setAdapterError(position: Int, errorText: String) {
+        adapter.setError(position, errorText)
     }
 
     private suspend fun addItem(content: String) {
-        val item = SimpleItem()
+        val item = InventoryItem()
 
         lastId += 1
 
@@ -159,49 +169,42 @@ class ScanPresenter(
         adapter.add(item)
 
         withContext(Dispatchers.Main) {
-            viewState.invalidateTitleCounter()
             adapter.notifyDataSetChanged()
         }
     }
 
-    private suspend fun removeItemsFromAdapter(items: MutableList<SimpleItem>) {
+    private suspend fun removeItemsFromAdapter(items: MutableList<InventoryItem>) {
         adapter.values.removeAll(items)
 
         withContext(Dispatchers.Main) {
-            viewState.setMenuDeleteItemVisible(false)
-            viewState.invalidateTitleCounter()
             adapter.notifyDataSetChanged()
         }
     }
 
-    private suspend fun updateItems(items: List<SimpleItem>) {
+    private suspend fun updateItems(items: List<InventoryItem>) {
         if (items.isEmpty()) return
 
         adapter.updateValues(items)
 
         withContext(Dispatchers.Main) {
-            viewState.invalidateTitleCounter()
             adapter.notifyDataSetChanged()
         }
     }
 
-    fun setDeleteMenuItemClickListener(item: MenuItem) {
-        item.setOnMenuItemClickListener {
-            AlertDialog.Builder(context)
-                .setTitle(R.string.warning)
-                .setMessage(R.string.delete_scans_message)
-                .setPositiveButton(R.string.yes) { _, _ ->
-                    val items = adapter.selectedItems
-                    presenterScope.launch {
-                        database.delete(items)
+    fun showDeleteItemDialog(position: Int) {
+        AlertDialog.Builder(context)
+            .setTitle(R.string.warning)
+            .setMessage(R.string.delete_scans_message)
+            .setPositiveButton(R.string.yes) { _, _ ->
+                val item = adapter[position]
+                presenterScope.launch {
+                    database.delete(item)
 
-                        removeItemsFromAdapter(items)
-                    }
+                    removeItemsFromAdapter(arrayListOf(item))
                 }
-                .setNegativeButton(R.string.no, null)
-                .show()
-            true
-        }
+            }
+            .setNegativeButton(R.string.no, null)
+            .show()
     }
 
     private fun showDeleteAllDialog() {

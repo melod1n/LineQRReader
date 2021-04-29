@@ -47,6 +47,8 @@ class InputNumberAuthFragment : BaseFragment(R.layout.fragment_auth_input_number
             }
         })
 
+        binding.number.showSoftInputOnFocus = false
+
         binding.number.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_GO) binding.next.performClick()
             false

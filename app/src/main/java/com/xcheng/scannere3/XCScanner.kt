@@ -1,10 +1,12 @@
 package com.xcheng.scannere3
 
+import com.meloda.lineqrreader.common.AppGlobal
+
 @Suppress("unused")
 object XCScanner {
 
     init {
-        System.loadLibrary("XCScanner")
+        if (AppGlobal.forActualScanner) System.loadLibrary("XCScanner")
     }
 
     interface Result {

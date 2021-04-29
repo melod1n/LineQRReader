@@ -1,25 +1,25 @@
 package com.meloda.lineqrreader.database.dao
 
 import androidx.room.*
-import com.meloda.lineqrreader.model.SimpleItem
+import com.meloda.lineqrreader.model.InventoryItem
 
 @Dao
-interface SimpleItemDao {
+interface InventoryDao {
 
     @Query("SELECT * FROM items")
-    suspend fun getAll(): List<SimpleItem>
+    suspend fun getAll(): List<InventoryItem>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: SimpleItem)
+    suspend fun insert(item: InventoryItem)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(items: List<SimpleItem>)
+    suspend fun insert(items: List<InventoryItem>)
 
     @Delete
-    suspend fun delete(item: SimpleItem)
+    suspend fun delete(item: InventoryItem)
 
     @Delete
-    suspend fun delete(items: List<SimpleItem>)
+    suspend fun delete(items: List<InventoryItem>)
 
     @Query("DELETE FROM items WHERE id = :id")
     suspend fun deleteById(id: Int)

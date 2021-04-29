@@ -25,7 +25,7 @@ object LiveDataExtensions {
     @JvmOverloads
     fun <T> MutableLiveData<MutableList<T>>.addAll(values: List<T>, position: Int = -1) {
         val value = (this.value ?: arrayListOf()).apply {
-            if (position == 1) this.addAll(values)
+            if (position == -1) this.addAll(values)
             else this.addAll(position, values)
         }
 

@@ -22,6 +22,8 @@ class CodeEditText @JvmOverloads constructor(
 
     private val editTexts: ArrayList<EditText> = arrayListOf()
 
+    private var showKeyboardOnFocus = true
+
     private var currentPosition = 0
 
     private val editTextLayoutParams
@@ -48,6 +50,8 @@ class CodeEditText @JvmOverloads constructor(
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.CodeEditText)
 
+        showKeyboardOnFocus = a.getBoolean(R.styleable.CodeEditText_showKeyboardOnFocus, true)
+
         var count = a.getInt(R.styleable.CodeEditText_numberCount, 4)
         if (count < 1) count = 4
 
@@ -68,6 +72,7 @@ class CodeEditText @JvmOverloads constructor(
         TextInputEditText(context, null, R.attr.editTextStyle).apply {
             editTexts.add(this)
 
+            showSoftInputOnFocus = showKeyboardOnFocus
             layoutParams = editTextLayoutParams
             isCursorVisible = false
             gravity = Gravity.CENTER

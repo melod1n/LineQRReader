@@ -27,4 +27,6 @@ object Extensions {
             InputFilter.LengthFilter(length)
         }
     }
+
+    fun Boolean?.value() = this ?: false
 }

@@ -14,7 +14,7 @@
             android:animateLayoutChanges="true"
             android:fillViewport="true">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -41,20 +41,11 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <!--                    <com.google.android.material.textfield.TextInputEditText-->
-                    <!--                        android:id="@+id/code1"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:cursorVisible="false"-->
-                    <!--                        android:ems="2"-->
-                    <!--                        android:gravity="center"-->
-                    <!--                        android:inputType="number"-->
-                    <!--                        android:maxLength="1" />-->
-
                     <com.meloda.lineqrreader.widget.CodeEditText
                         android:id="@+id/code"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        app:showKeyboardOnFocus="false" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -69,11 +60,11 @@
                     android:text="@string/send_code_again"
                     app:backgroundTint="?colorAccent" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

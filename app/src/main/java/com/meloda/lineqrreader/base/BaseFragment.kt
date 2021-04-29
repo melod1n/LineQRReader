@@ -12,4 +12,6 @@ abstract class BaseFragment : MvpAppCompatFragment {
 
     var errorSnackbar: Snackbar? = null
 
+
+
 }

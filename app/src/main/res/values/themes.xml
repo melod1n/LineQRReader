@@ -1,6 +1,8 @@
 <resources>
 
-    <style name="Theme.LineQRReader" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+    <style name="Theme" parent="Theme.MaterialComponents" />
+
+    <style name="Theme.Main" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
         <item name="colorAccent">@color/blue_light</item>
@@ -11,9 +13,40 @@
         <item name="android:windowBackground">@color/white</item>
 
         <item name="android:textAppearanceMedium">@style/Theme.Text.Medium</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+    <style name="Theme.Inventory" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
+        <item name="colorPrimary">@color/inventory</item>
+        <item name="colorPrimaryDark">@color/inventory</item>
+        <item name="colorAccent">@color/blue_light</item>
+
+        <item name="toolbarStyle">@style/Theme.Toolbar</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="dividerHorizontal">@color/divider</item>
+        <item name="divider">@color/divider</item>
+    </style>
+
+    <style name="Theme.Collecting" parent="Theme.MaterialComponents.Light.Bridge">
+        <item name="colorPrimary">@color/collecting</item>
+        <item name="colorPrimaryDark">@color/collecting</item>
+        <item name="colorAccent">@color/blue_light</item>
+
+        <item name="toolbarStyle">@style/Theme.Toolbar</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="dividerHorizontal">@color/divider</item>
+        <item name="divider">@color/divider</item>
+    </style>
+
+    <style name="Theme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="android:layout_height">?actionBarSize</item>
     </style>
 

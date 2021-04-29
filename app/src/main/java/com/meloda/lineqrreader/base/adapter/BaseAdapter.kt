@@ -26,7 +26,7 @@ abstract class BaseAdapter<Item, VH : BaseHolder>(
     val cleanValues = MutableLiveData<MutableList<Item>>(arrayListOf())
     val values = MutableLiveData<MutableList<Item>>(arrayListOf())
 
-    private var inflater: LayoutInflater = LayoutInflater.from(context)
+    protected var inflater: LayoutInflater = LayoutInflater.from(context)
 
     init {
         this.values.value = values
@@ -62,6 +62,10 @@ abstract class BaseAdapter<Item, VH : BaseHolder>(
     fun addAll(position: Int, items: List<Item>) {
         values.addAll(items, position)
         cleanValues.addAll(items, position)
+    }
+
+    operator fun get(position: Int): Item {
+        return values[position]
     }
 
     operator fun set(position: Int, item: Item) {
