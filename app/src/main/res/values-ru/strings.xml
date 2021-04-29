@@ -36,4 +36,11 @@
     <string name="assembled_products">Собранные товары</string>
     <string name="minute_short">М</string>
     <string name="second_short">С</string>
+    <string name="input_barcode">Введите штрих-код</string>
+    <string name="gave_to_courier">Отдал курьеру</string>
+    <string name="order_collection_time">Время сборки заказа</string>
+    <string name="order_number_collected">Заказ №%d собран!</string>
+    <string name="end_break_text">До конца перерыва осталось</string>
+    <string name="end_early">Закончить раньше</string>
+    <string name="main_menu">Главное меню</string>
 </resources>

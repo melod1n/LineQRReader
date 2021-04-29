@@ -61,4 +61,17 @@
     <string name="minute_short">M</string>
     <string name="second_short">S</string>
 
+    <string name="input_barcode">Input barcode</string>
+    <string name="gave_to_courier">Gave to courier</string>
+
+    <string name="order_collection_time">Order collection time</string>
+
+    <string name="order_number_collected">Order №%d collected!</string>
+
+    <string name="end_break_text">Until the end of the break left</string>
+
+    <string name="end_early">End early</string>
+
+    <string name="main_menu">Main menu</string>
+
 </resources>

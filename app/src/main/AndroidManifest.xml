@@ -38,6 +38,11 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".activity.OrderCollectedActivity"
+            android:theme="@style/Theme.CollectedOrder"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".activity.AuthActivity"
             android:windowSoftInputMode="adjustResize" />
     </application>

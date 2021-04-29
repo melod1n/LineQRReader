@@ -69,7 +69,7 @@ class CollectingAssembledPresenter :
     }
 
     override fun onItemLongClick(position: Int) {
-        TODO("Not yet implemented")
+
     }
 
 }

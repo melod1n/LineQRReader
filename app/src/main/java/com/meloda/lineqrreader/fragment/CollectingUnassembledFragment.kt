@@ -15,6 +15,7 @@ import com.meloda.lineqrreader.extensions.StringExtensions.lowerCase
 import com.meloda.lineqrreader.fragment.ui.CollectingUnassembledPresenter
 import com.meloda.lineqrreader.fragment.ui.CollectingUnassembledView
 import com.meloda.lineqrreader.listener.OnCompleteListener
+import com.meloda.lineqrreader.util.Utils
 import com.meloda.lineqrreader.view.DividerItemDecoration
 import java.util.*
 
@@ -24,17 +25,13 @@ class CollectingUnassembledFragment :
     OnItemClickListener,
     InventoryAdapter.OnSuggestDeleteListener {
 
-    companion object {
-        private const val TIMER_TEXT_PATTERN = "%s %s : %s %s"
-    }
-
     private val binding: FragmentCollectingUnassembledBinding by viewBinding()
     private val presenter: CollectingUnassembledPresenter by viewPresenter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.cellCount.text = getString(R.string.count_short).toLowerCase()
+        binding.cellCount.text = getString(R.string.count_short).lowerCase()
         binding.cellNumber.text = getString(R.string.cell_num)
     }
 
@@ -70,7 +67,7 @@ class CollectingUnassembledFragment :
     }
 
     override fun onItemClick(position: Int) {
-        presenter.setAdapterError(position, "Some error")
+        presenter.showBarcodeDialog()
     }
 
     override fun onSuggest(position: Int) {
@@ -84,11 +81,10 @@ class CollectingUnassembledFragment :
     fun onKeyUp(keyCode: Int) = presenter.onKeyUp(keyCode)
 
     fun updateTimer(calendar: Calendar) {
-        binding.time.text = TIMER_TEXT_PATTERN.format(
-            calendar[Calendar.MINUTE].toString(),
-            getString(R.string.minute_short).lowerCase(),
-            calendar[Calendar.SECOND].toString(),
-            getString(R.string.second_short).lowerCase()
+        binding.time.text = Utils.getLocalizedTime(
+            requireContext(),
+            calendar[Calendar.MINUTE],
+            calendar[Calendar.SECOND]
         )
     }
 

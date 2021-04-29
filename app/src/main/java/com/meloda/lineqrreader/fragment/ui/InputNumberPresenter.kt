@@ -16,9 +16,8 @@ class InputNumberPresenter(private var context: Fragment) : MvpPresenter<InputNu
 
     val answer = MutableLiveData<Answer?>()
 
-
     fun sendPhoneNumber(number: String) = presenterScope.launch {
-        if (!validateNumber(number)) {
+        if (!Utils.isNumberValid(number)) {
             answer.value = Answer.FAIL.also {
                 it.message = context.getString(
                     if (number == "+7") R.string.error_enter_phone_number
@@ -46,9 +45,5 @@ class InputNumberPresenter(private var context: Fragment) : MvpPresenter<InputNu
         }
     }
 
-    private fun validateNumber(string: String): Boolean {
-        return string.matches(Regex(Utils.PHONE_NUMBER_PATTERN))
-
-    }
 
 }

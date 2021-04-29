@@ -62,15 +62,8 @@ class CollectingActivity : BaseActivity(R.layout.activity_collecting) {
             .hide(assembledCollectingFragment)
             .commitNowAllowingStateLoss()
 
-        binding.unassembled.setOnClickListener {
-            replaceFragment(unassembledCollectingFragment)
-            setBackgrounds()
-        }
-
-        binding.assembled.setOnClickListener {
-            replaceFragment(assembledCollectingFragment)
-            setBackgrounds()
-        }
+        binding.unassembled.setOnClickListener { replaceFragment(unassembledCollectingFragment) }
+        binding.assembled.setOnClickListener { replaceFragment(assembledCollectingFragment) }
 
         binding.remainPositions.progress = currentElements
         binding.remainPositions.max = maxElements * 100
@@ -80,6 +73,9 @@ class CollectingActivity : BaseActivity(R.layout.activity_collecting) {
 
     private fun setupTimers() {
         val currentTime = System.currentTimeMillis()
+
+        assembledCollectingFragment.startCollectingTime = currentTime
+
         val futureTime = currentTime + 300000
 
         val zeroCalendar = Calendar.getInstance().apply {
@@ -109,11 +105,6 @@ class CollectingActivity : BaseActivity(R.layout.activity_collecting) {
         assembledCollectingFragment.addItem(content)
 
         currentElements += 1
-        if (currentElements > maxElements) {
-            replaceFragment(assembledCollectingFragment)
-//            currentElements = 0
-            return
-        }
 
         val from = binding.remainPositions.progress.toFloat()
         val to = currentElements * 100f
@@ -129,6 +120,12 @@ class CollectingActivity : BaseActivity(R.layout.activity_collecting) {
                 binding.remainPositions, from, to
             ).also { it.duration = 500 }
         )
+
+        if (currentElements == maxElements) {
+            replaceFragment(assembledCollectingFragment)
+//            currentElements = 0
+            return
+        }
     }
 
     fun setItemsSize(size: Int) {
@@ -185,6 +182,8 @@ class CollectingActivity : BaseActivity(R.layout.activity_collecting) {
             .hide(fragmentToHide)
             .show(fragment)
             .commitNowAllowingStateLoss()
+
+        setBackgrounds()
     }
 
     override fun onResume() {

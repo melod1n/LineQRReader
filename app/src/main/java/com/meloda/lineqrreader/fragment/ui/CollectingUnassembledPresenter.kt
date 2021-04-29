@@ -25,6 +25,10 @@ class CollectingUnassembledPresenter :
     MvpPresenter<CollectingUnassembledView>(),
     OnItemLongClickListener {
 
+    companion object {
+        private const val MAX_ITEMS = 5
+    }
+
     private lateinit var adapter: InventoryAdapter
     private lateinit var context: Context
 
@@ -106,7 +110,7 @@ class CollectingUnassembledPresenter :
     private fun createItems() {
         val items = arrayListOf<InventoryItem>()
 
-        for (i in 0..Random.nextInt(1, 25)) {
+        for (i in 0..Random.nextInt(1, MAX_ITEMS)) {
             items.add(
                 InventoryItem(
                     (i + 1),
@@ -126,21 +130,19 @@ class CollectingUnassembledPresenter :
         adapter.notifyDataSetChanged()
     }
 
-    fun setAdapterError(position: Int, errorText: String) {
-        adapter.setError(position, errorText)
-    }
-
     fun initScanner() {
         scanUtil = ScannerUtil(context, object : ScannerResultListener {
             override fun onResult(sym: String, content: String) {
                 presenterScope.launch(Dispatchers.Main) {
-                    with(context as CollectingActivity) {
-                        addElement(content)
-                    }
+                    if (adapter.isEmpty()) return@launch
 
+                    val index = if (adapter.size == 1) 0
+                    else Random.nextInt(0, adapter.size - 1)
+                    adapter.removeAt(index)
+                    adapter.notifyDataSetChanged()
+
+                    with(context as CollectingActivity) { addElement(content) }
                 }
-
-                //TODO: move item to assembled and update progressbar
             }
         })
 
@@ -203,7 +205,7 @@ class CollectingUnassembledPresenter :
     }
 
     private fun showDeleteAllDialog() {
-        AlertDialog.Builder(adapter.context)
+        AlertDialog.Builder(context)
             .setTitle(R.string.warning)
             .setMessage(R.string.delete_all_scans_message)
             .setPositiveButton(R.string.yes) { _, _ ->
@@ -217,5 +219,12 @@ class CollectingUnassembledPresenter :
 
     override fun onItemLongClick(position: Int) {
         showDeleteAllDialog()
+    }
+
+    //TODO
+    fun showBarcodeDialog() {
+        AlertDialog.Builder(context)
+            .setTitle(R.string.input_barcode)
+
     }
 }

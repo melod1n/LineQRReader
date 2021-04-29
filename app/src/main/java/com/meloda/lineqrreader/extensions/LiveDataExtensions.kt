@@ -41,6 +41,22 @@ object LiveDataExtensions {
         this.value = value
     }
 
+    fun <T> MutableLiveData<MutableList<T>>.removeAt(index: Int) {
+        val value = (this.value ?: arrayListOf()).apply {
+            this.removeAt(index)
+        }
+
+        this.value = value
+    }
+
+    fun <T> MutableLiveData<MutableList<T>>.remove(item: T) {
+        val value = (this.value ?: arrayListOf()).apply {
+            this.remove(item)
+        }
+
+        this.value = value
+    }
+
     operator fun <T> MutableLiveData<MutableList<T>>.iterator(): Iterator<T> {
         return (value as MutableList<T>).iterator()
     }

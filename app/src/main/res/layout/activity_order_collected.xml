@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!-- TODO: extract styles -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="64dp"
+        android:paddingBottom="64dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/orderCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="?android:textColorPrimary"
+            tools:text="Order №123213\ncollected!" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/orderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="128dp"
+            android:text="@string/order_collection_time"
+            android:textColor="?android:textColorPrimary" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/orderTimeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
+            android:textColor="#F2994A"
+            android:textStyle="bold"
+            tools:text="04 m : 07 s" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/gaveOrder"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gave_to_courier"
+            android:textColor="?android:textColorPrimary"
+            app:rippleColor="?colorAccent"
+            app:strokeColor="?colorAccent"
+            app:strokeWidth="1dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

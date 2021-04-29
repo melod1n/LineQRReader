@@ -46,6 +46,10 @@
         <item name="divider">@color/divider</item>
     </style>
 
+    <style name="Theme.CollectedOrder" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="colorAccent">@color/blue_light</item>
+    </style>
+
     <style name="Theme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="android:layout_height">?actionBarSize</item>
     </style>

@@ -14,6 +14,9 @@ import com.meloda.lineqrreader.extensions.LiveDataExtensions.get
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.isEmpty
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.isNotEmpty
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.plusAssign
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.remove
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.removeAll
+import com.meloda.lineqrreader.extensions.LiveDataExtensions.removeAt
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.set
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.size
 
@@ -64,6 +67,21 @@ abstract class BaseAdapter<Item, VH : BaseHolder>(
         cleanValues.addAll(items, position)
     }
 
+    fun removeAll(items: List<Item>) {
+        values.removeAll(items)
+        cleanValues.removeAll(items)
+    }
+
+    fun removeAt(index: Int) {
+        values.removeAt(index)
+        cleanValues.removeAt(index)
+    }
+
+    fun remove(item: Item) {
+        values.remove(item)
+        cleanValues.remove(item)
+    }
+
     operator fun get(position: Int): Item {
         return values[position]
     }
@@ -109,6 +127,8 @@ abstract class BaseAdapter<Item, VH : BaseHolder>(
     override fun getItemCount(): Int {
         return values.size
     }
+
+    val size get() = itemCount
 
     private fun onBindItemViewHolder(holder: VH, position: Int) {
         initListeners(holder.itemView, position)
