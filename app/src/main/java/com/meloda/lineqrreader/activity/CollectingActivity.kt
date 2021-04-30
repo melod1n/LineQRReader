@@ -13,7 +13,7 @@ import com.meloda.lineqrreader.R
 import com.meloda.lineqrreader.base.BaseActivity
 import com.meloda.lineqrreader.base.BaseFragment
 import com.meloda.lineqrreader.databinding.ActivityCollectingBinding
-import com.meloda.lineqrreader.extensions.Extensions.value
+import com.meloda.lineqrreader.extensions.BooleanExtensions.value
 import com.meloda.lineqrreader.extensions.Extensions.withAnimations
 import com.meloda.lineqrreader.fragment.CollectingAssembledFragment
 import com.meloda.lineqrreader.fragment.CollectingUnassembledFragment

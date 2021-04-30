@@ -17,6 +17,7 @@ import com.meloda.lineqrreader.listener.OnCompleteListener
 import com.meloda.lineqrreader.listener.ScannerResultListener
 import com.meloda.lineqrreader.model.InventoryItem
 import com.meloda.lineqrreader.scanner.ScannerUtil
+import com.meloda.lineqrreader.util.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,12 +33,14 @@ class InventoryPresenter() : MvpPresenter<InventoryView>(), OnItemLongClickListe
         private val TAG = InventoryPresenter::class.java.name
     }
 
-    private lateinit var adapter: InventoryAdapter
+    lateinit var adapter: InventoryAdapter
     private lateinit var context: Context
 
     private var scanUtil: ScannerUtil? = null
     private var isButtonPressed = false
     private var lastId = 0
+
+    var isFirstScan = true
 
     private val database = AppGlobal.database.inventory
 
@@ -45,7 +48,6 @@ class InventoryPresenter() : MvpPresenter<InventoryView>(), OnItemLongClickListe
         super.onFirstViewAttach()
 
         viewState.prepareViews()
-
         viewState.createAdapter(object : OnCompleteListener<InventoryAdapter> {
             override fun onComplete(item: InventoryAdapter) {
                 context = item.context
@@ -59,12 +61,19 @@ class InventoryPresenter() : MvpPresenter<InventoryView>(), OnItemLongClickListe
         })
     }
 
+    fun removeCell() {
+        isFirstScan = true
+        (context as InventoryActivity).setCell("")
+
+        adapter.clear()
+        adapter.notifyDataSetChanged()
+    }
+
     private fun initAdapter(adapter: InventoryAdapter) {
         this.adapter = adapter.also {
             it.itemLongClickListener = this
         }
     }
-
 
     private fun checkCameraPermission() {
         if (context.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -106,7 +115,17 @@ class InventoryPresenter() : MvpPresenter<InventoryView>(), OnItemLongClickListe
     fun initScanner() {
         scanUtil = ScannerUtil(context, object : ScannerResultListener {
             override fun onResult(sym: String, content: String) {
-                presenterScope.launch { addItem(content) }
+                presenterScope.launch {
+                    if (isFirstScan) {
+                        isFirstScan = false
+
+                        val cell = Utils.generateCell()
+                        (context as InventoryActivity).setCell(cell)
+                        return@launch
+                    }
+
+                    addItem(content)
+                }
             }
         })
 
@@ -116,8 +135,6 @@ class InventoryPresenter() : MvpPresenter<InventoryView>(), OnItemLongClickListe
     fun releaseScanner() {
         scanUtil?.release()
     }
-
-    val itemCount get() = adapter.itemCount
 
     fun onKeyDown(keyCode: Int): Boolean {
         if (keyCode == KeyEvent.KEYCODE_F11 ||
@@ -156,15 +173,13 @@ class InventoryPresenter() : MvpPresenter<InventoryView>(), OnItemLongClickListe
         adapter.setError(position, errorText)
     }
 
-    private suspend fun addItem(content: String) {
+    suspend fun addItem(content: String) {
         val item = InventoryItem()
 
         lastId += 1
 
         item.content = content
         item.id = lastId
-
-        database.insert(item)
 
         adapter.add(item)
 
@@ -223,6 +238,13 @@ class InventoryPresenter() : MvpPresenter<InventoryView>(), OnItemLongClickListe
 
     override fun onItemLongClick(position: Int) {
         showDeleteAllDialog()
+    }
+
+    suspend fun saveAllToDatabase() {
+        val items = adapter.values.value ?: return
+        if (items.isEmpty()) return
+
+        database.insert(items)
     }
 
 }

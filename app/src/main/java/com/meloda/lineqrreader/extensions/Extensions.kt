@@ -1,7 +1,5 @@
 package com.meloda.lineqrreader.extensions
 
-import android.text.InputFilter
-import android.widget.TextView
 import androidx.annotation.AnimRes
 import androidx.annotation.AnimatorRes
 import androidx.fragment.app.FragmentTransaction
@@ -19,14 +17,4 @@ object Extensions {
         return this
     }
 
-    fun TextView.trim() = text.toString().trim()
-    fun TextView.string() = text.toString()
-
-    fun TextView.setMaxLength(length: Int) {
-        filters = Array<InputFilter>(1) {
-            InputFilter.LengthFilter(length)
-        }
-    }
-
-    fun Boolean?.value() = this ?: false
 }

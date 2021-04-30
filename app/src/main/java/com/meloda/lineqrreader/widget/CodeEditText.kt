@@ -11,7 +11,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 import com.meloda.lineqrreader.R
-import com.meloda.lineqrreader.extensions.Extensions.setMaxLength
+import com.meloda.lineqrreader.extensions.TextViewExtensions.setMaxLength
 import com.meloda.lineqrreader.util.KeyboardUtils
 
 class CodeEditText @JvmOverloads constructor(

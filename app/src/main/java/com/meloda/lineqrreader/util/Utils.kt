@@ -5,6 +5,8 @@ import com.meloda.lineqrreader.R
 import com.meloda.lineqrreader.common.AppConstants
 import com.meloda.lineqrreader.common.AppGlobal
 import com.meloda.lineqrreader.extensions.StringExtensions.lowerCase
+import com.meloda.lineqrreader.extensions.StringExtensions.upperCase
+import kotlin.random.Random
 
 object Utils {
 
@@ -31,4 +33,13 @@ object Utils {
     }
 
     fun isNumberValid(string: String) = string.matches(Regex(AppConstants.PHONE_NUMBER_PATTERN))
+
+    fun generateCell(): String {
+        with(AppConstants.alphabet.split(",")) {
+            return this[Random.nextInt(
+                0,
+                this.size - 1
+            )].upperCase() + Random.nextInt(1000, 9999)
+        }
+    }
 }

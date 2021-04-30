@@ -8,14 +8,15 @@ import com.meloda.lineqrreader.activity.CollectingActivity
 import com.meloda.lineqrreader.activity.InventoryActivity
 import com.meloda.lineqrreader.adapter.InventoryAdapter
 import com.meloda.lineqrreader.base.adapter.OnItemLongClickListener
+import com.meloda.lineqrreader.common.AppConstants
 import com.meloda.lineqrreader.dialog.BarcodeDialog
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.removeAll
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.requireValue
-import com.meloda.lineqrreader.extensions.StringExtensions.upperCase
 import com.meloda.lineqrreader.listener.OnCompleteListener
 import com.meloda.lineqrreader.listener.ScannerResultListener
 import com.meloda.lineqrreader.model.InventoryItem
 import com.meloda.lineqrreader.scanner.ScannerUtil
+import com.meloda.lineqrreader.util.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moxy.MvpPresenter
@@ -35,57 +36,6 @@ class CollectingUnassembledPresenter :
 
     private var scanUtil: ScannerUtil? = null
     private var isButtonPressed = false
-
-    private val titles = listOf(
-        "Дверь межкомнатная",
-        "Стул деревянный кухонный",
-        "Микроволновая печь",
-        "Холодильник белый",
-        "Чайник красный",
-        "Сменный фильтр",
-        "Стиральная машина",
-        "Хлеб кирпич",
-        "Майонез",
-        "Молоко 1 л.",
-        "Масло сливочное 250 гр",
-        "Футболка белая",
-        "Шорты синие",
-        "Трико зелёное",
-        "Кроссовки белые",
-        "Рюкзак розовый"
-    )
-
-    private val alphabet = listOf(
-        "а",
-        "б",
-        "в",
-        "г",
-        "д",
-        "е",
-        "ж",
-        "з",
-        "и",
-        "к",
-        "л",
-        "м",
-        "н",
-        "о",
-        "п",
-        "р",
-        "с",
-        "т",
-        "у",
-        "ф",
-        "х",
-        "ц",
-        "ч",
-        "ш",
-        "щ",
-        "ы",
-        "э",
-        "ю",
-        "я"
-    )
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -111,16 +61,15 @@ class CollectingUnassembledPresenter :
     private fun createItems() {
         val items = arrayListOf<InventoryItem>()
 
+        val titles = AppConstants.titles.split(",")
+        val alphabet = AppConstants.alphabet.split(",")
+
         for (i in 0..Random.nextInt(1, MAX_ITEMS)) {
             items.add(
                 InventoryItem(
                     (i + 1),
                     titles[Random.nextInt(0, titles.size - 1)],
-                    Random.nextInt(1, 10),
-                    alphabet[Random.nextInt(
-                        0,
-                        alphabet.size - 1
-                    )].upperCase() + Random.nextInt(1000, 9999)
+                    Random.nextInt(1, 10), Utils.generateCell()
                 )
             )
         }

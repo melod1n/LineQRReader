@@ -10,6 +10,7 @@ import com.meloda.lineqrreader.activity.CollectingActivity
 import com.meloda.lineqrreader.adapter.InventoryAdapter
 import com.meloda.lineqrreader.databinding.DialogBarcodeBinding
 import com.meloda.lineqrreader.extensions.TextViewExtensions.isEmpty
+import com.meloda.lineqrreader.extensions.TextViewExtensions.string
 
 class BarcodeDialog(
     private val adapter: InventoryAdapter,
@@ -18,6 +19,8 @@ class BarcodeDialog(
 ) : DialogFragment(R.layout.dialog_barcode) {
 
     private val binding: DialogBarcodeBinding by viewBinding()
+
+    var onDoneListener: OnDoneListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,14 +41,22 @@ class BarcodeDialog(
         binding.done.setOnClickListener {
             if (binding.barcode.isEmpty()) return@setOnClickListener
 
-            val item = adapter[position]
-            with(requireActivity() as CollectingActivity) {
-                addElement(item.content)
-                removeItems(arrayListOf(item))
+            if (position == -1) {
+                onDoneListener?.onDone(binding.barcode.string())
+            } else {
+                val item = adapter[position]
+                with(requireActivity() as CollectingActivity) {
+                    addElement(item.content)
+                    removeItems(arrayListOf(item))
+                }
             }
 
             dismiss()
         }
+    }
+
+    interface OnDoneListener {
+        fun onDone(result: String)
     }
 
 }

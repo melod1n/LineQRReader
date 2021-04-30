@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.viewbinding.library.activity.viewBinding
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meloda.lineqrreader.R
@@ -14,9 +15,12 @@ import com.meloda.lineqrreader.adapter.InventoryAdapter
 import com.meloda.lineqrreader.base.BaseActivity
 import com.meloda.lineqrreader.base.adapter.OnItemClickListener
 import com.meloda.lineqrreader.databinding.ActivityInventoryBinding
+import com.meloda.lineqrreader.dialog.BarcodeDialog
 import com.meloda.lineqrreader.extensions.MoxyExtensions.viewPresenter
+import com.meloda.lineqrreader.extensions.StringExtensions.lowerCase
 import com.meloda.lineqrreader.listener.OnCompleteListener
 import com.meloda.lineqrreader.view.DividerItemDecoration
+import kotlinx.coroutines.launch
 
 class InventoryActivity() :
     BaseActivity(R.layout.activity_inventory),
@@ -32,8 +36,30 @@ class InventoryActivity() :
 
         title = "Nikolaev D.S."
 
-        binding.cellCount.text = getString(R.string.count_short).toLowerCase()
+        binding.cellCount.text = getString(R.string.count_short).lowerCase()
         binding.cellNumber.text = getString(R.string.cell_num)
+
+        binding.barcode.setOnClickListener {
+            BarcodeDialog(presenter.adapter, -1, true).apply {
+                onDoneListener = object : BarcodeDialog.OnDoneListener {
+                    override fun onDone(result: String) {
+                        lifecycleScope.launch { presenter.addItem(result) }
+                    }
+                }
+            }.show(
+                supportFragmentManager,
+                "barcode_dialog"
+            )
+        }
+
+        binding.end.setOnClickListener {
+            lifecycleScope.launch { presenter.saveAllToDatabase() }
+            finish()
+        }
+    }
+
+    fun setCell(cell: String) {
+        title = "Nikolaev D.S. " + if (cell.isNotEmpty()) "($cell)" else ""
     }
 
     override fun prepareViews() {
@@ -62,8 +88,6 @@ class InventoryActivity() :
     }
 
     override fun onItemClick(position: Int) {
-//        presenter.toggleAdapterItemSelection(position)
-
         presenter.setAdapterError(position, "Some error")
     }
 
@@ -106,6 +130,11 @@ class InventoryActivity() :
 
     override fun onSuggest(position: Int) {
         presenter.showDeleteItemDialog(position)
+    }
+
+    override fun onBackPressed() {
+        if (!presenter.isFirstScan) presenter.removeCell()
+        else super.onBackPressed()
     }
 
 }

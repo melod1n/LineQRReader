@@ -10,7 +10,7 @@ import com.meloda.lineqrreader.R
 import com.meloda.lineqrreader.base.BaseFragment
 import com.meloda.lineqrreader.base.answer.Status
 import com.meloda.lineqrreader.databinding.FragmentAuthInputNumberBinding
-import com.meloda.lineqrreader.extensions.Extensions.string
+import com.meloda.lineqrreader.extensions.TextViewExtensions.string
 import com.meloda.lineqrreader.fragment.ui.InputNumberPresenter
 import com.meloda.lineqrreader.fragment.ui.InputNumberView
 import com.meloda.lineqrreader.util.KeyboardUtils

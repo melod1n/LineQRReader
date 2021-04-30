@@ -82,6 +82,11 @@ abstract class BaseAdapter<Item, VH : BaseHolder>(
         cleanValues.remove(item)
     }
 
+    fun clear() {
+        values.clear()
+        cleanValues.clear()
+    }
+
     operator fun get(position: Int): Item {
         return values[position]
     }
