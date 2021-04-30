@@ -11,7 +11,7 @@ import com.meloda.lineqrreader.common.AppGlobal
 import com.meloda.lineqrreader.databinding.FragmentAuthInputCodeBinding
 import com.meloda.lineqrreader.fragment.ui.InputCodeView
 
-class InputCodeAuthFragment : BaseFragment(R.layout.fragment_auth_input_code), InputCodeView {
+class AuthInputCodeFragment : BaseFragment(R.layout.fragment_auth_input_code), InputCodeView {
 
     private val binding: FragmentAuthInputCodeBinding by viewBinding()
 

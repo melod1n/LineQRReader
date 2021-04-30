@@ -17,6 +17,7 @@ import com.meloda.lineqrreader.extensions.Extensions.value
 import com.meloda.lineqrreader.extensions.Extensions.withAnimations
 import com.meloda.lineqrreader.fragment.CollectingAssembledFragment
 import com.meloda.lineqrreader.fragment.CollectingUnassembledFragment
+import com.meloda.lineqrreader.model.InventoryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -123,9 +124,12 @@ class CollectingActivity : BaseActivity(R.layout.activity_collecting) {
 
         if (currentElements == maxElements) {
             replaceFragment(assembledCollectingFragment)
-//            currentElements = 0
             return
         }
+    }
+
+    fun removeItems(items: ArrayList<InventoryItem>) {
+        unassembledCollectingFragment.removeItems(items)
     }
 
     fun setItemsSize(size: Int) {

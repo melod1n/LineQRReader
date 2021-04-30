@@ -17,7 +17,7 @@ import com.meloda.lineqrreader.util.KeyboardUtils
 import com.meloda.lineqrreader.util.ViewUtils
 import moxy.ktx.moxyPresenter
 
-class InputNumberAuthFragment : BaseFragment(R.layout.fragment_auth_input_number), InputNumberView {
+class AuthInputNumberFragment : BaseFragment(R.layout.fragment_auth_input_number), InputNumberView {
 
     private val binding: FragmentAuthInputNumberBinding by viewBinding()
     private val presenter: InputNumberPresenter by moxyPresenter { InputNumberPresenter(this) }

@@ -4,21 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.meloda.lineqrreader.R
 import com.meloda.lineqrreader.activity.CollectingActivity
 import com.meloda.lineqrreader.activity.InventoryActivity
 import com.meloda.lineqrreader.base.BaseFragment
-import com.meloda.lineqrreader.databinding.DialogBreakBinding
 import com.meloda.lineqrreader.databinding.FragmentMainBinding
-import com.meloda.lineqrreader.util.Utils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.meloda.lineqrreader.dialog.BreakDialog
 import java.util.*
-import kotlin.concurrent.schedule
 import kotlin.random.Random
 
 class MainFragment : BaseFragment(R.layout.fragment_main) {
@@ -68,42 +62,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     }
 
     private fun showPauseDialog() {
-        val dialogBinding = DialogBreakBinding.inflate(layoutInflater, null, false)
-
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setView(dialogBinding.root)
-        builder.setCancelable(false)
-
-        val alert = builder.show()
-
-        val currentTime = System.currentTimeMillis()
-        val futureTime = currentTime + 900000
-
-        val timer = Timer()
-        timer.schedule(0, 1000) {
-            val now = System.currentTimeMillis()
-
-            val change = futureTime - now
-
-            val calendar = Calendar.getInstance().apply { timeInMillis = change }
-
-            val minutes = calendar[Calendar.MINUTE]
-            val seconds = calendar[Calendar.SECOND]
-
-            if (minutes == 0 && seconds == 0) {
-                timer.cancel()
-                dialogBinding.endBreak.text = getString(R.string.main_menu)
-                return@schedule
-            }
-
-            lifecycleScope.launch(Dispatchers.Main) {
-                dialogBinding.breakEndTime.text = Utils.getLocalizedTime(
-                    requireContext(), minutes, seconds
-                )
-            }
-        }
-
-        dialogBinding.endBreak.setOnClickListener { alert.dismiss() }
+        BreakDialog.show(parentFragmentManager)
     }
 
     private fun toggleVisibility(view: View, visible: Boolean? = null) {

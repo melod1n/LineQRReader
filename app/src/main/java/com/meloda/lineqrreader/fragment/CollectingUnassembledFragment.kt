@@ -15,6 +15,7 @@ import com.meloda.lineqrreader.extensions.StringExtensions.lowerCase
 import com.meloda.lineqrreader.fragment.ui.CollectingUnassembledPresenter
 import com.meloda.lineqrreader.fragment.ui.CollectingUnassembledView
 import com.meloda.lineqrreader.listener.OnCompleteListener
+import com.meloda.lineqrreader.model.InventoryItem
 import com.meloda.lineqrreader.util.Utils
 import com.meloda.lineqrreader.view.DividerItemDecoration
 import java.util.*
@@ -67,7 +68,7 @@ class CollectingUnassembledFragment :
     }
 
     override fun onItemClick(position: Int) {
-        presenter.showBarcodeDialog()
+        presenter.showBarcodeDialog(position)
     }
 
     override fun onSuggest(position: Int) {
@@ -86,6 +87,10 @@ class CollectingUnassembledFragment :
             calendar[Calendar.MINUTE],
             calendar[Calendar.SECOND]
         )
+    }
+
+    fun removeItems(items: ArrayList<InventoryItem>) {
+        presenter.removeItemsFromAdapter(items)
     }
 
 }

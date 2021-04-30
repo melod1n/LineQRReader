@@ -8,6 +8,7 @@ import com.meloda.lineqrreader.activity.CollectingActivity
 import com.meloda.lineqrreader.activity.InventoryActivity
 import com.meloda.lineqrreader.adapter.InventoryAdapter
 import com.meloda.lineqrreader.base.adapter.OnItemLongClickListener
+import com.meloda.lineqrreader.dialog.BarcodeDialog
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.removeAll
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.requireValue
 import com.meloda.lineqrreader.extensions.StringExtensions.upperCase
@@ -186,7 +187,7 @@ class CollectingUnassembledPresenter :
         return false
     }
 
-    private fun removeItemsFromAdapter(items: MutableList<InventoryItem>) {
+    fun removeItemsFromAdapter(items: MutableList<InventoryItem>) {
         adapter.values.removeAll(items)
         adapter.notifyDataSetChanged()
     }
@@ -221,10 +222,10 @@ class CollectingUnassembledPresenter :
         showDeleteAllDialog()
     }
 
-    //TODO
-    fun showBarcodeDialog() {
-        AlertDialog.Builder(context)
-            .setTitle(R.string.input_barcode)
-
+    fun showBarcodeDialog(position: Int) {
+        BarcodeDialog(adapter, position).show(
+            (context as CollectingActivity).supportFragmentManager,
+            "barcode_dialog"
+        )
     }
 }

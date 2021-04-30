@@ -46,6 +46,11 @@
         <item name="divider">@color/divider</item>
     </style>
 
+    <style name="Theme.FullScreen.Translucent.Dialog" parent="@android:style/Theme.Material.NoActionBar.TranslucentDecor">
+        <item name="android:colorAccent">@color/blue_light</item>
+        <item name="android:textColorPrimary">#000000</item>
+    </style>
+
     <style name="Theme.CollectedOrder" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <item name="colorAccent">@color/blue_light</item>
     </style>

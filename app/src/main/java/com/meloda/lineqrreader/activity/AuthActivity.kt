@@ -8,8 +8,8 @@ import com.meloda.lineqrreader.activity.ui.AuthView
 import com.meloda.lineqrreader.base.BaseActivity
 import com.meloda.lineqrreader.extensions.Extensions.withAnimations
 import com.meloda.lineqrreader.extensions.MoxyExtensions.viewPresenter
-import com.meloda.lineqrreader.fragment.InputCodeAuthFragment
-import com.meloda.lineqrreader.fragment.InputNumberAuthFragment
+import com.meloda.lineqrreader.fragment.AuthInputCodeFragment
+import com.meloda.lineqrreader.fragment.AuthInputNumberFragment
 
 class AuthActivity : BaseActivity(R.layout.activity_auth), AuthView {
 
@@ -30,13 +30,13 @@ class AuthActivity : BaseActivity(R.layout.activity_auth), AuthView {
 
     private fun showInputNumberScreen() {
         supportFragmentManager.beginTransaction().withAnimations()
-            .replace(R.id.fragmentContainer, InputNumberAuthFragment())
+            .replace(R.id.fragmentContainer, AuthInputNumberFragment())
             .commit()
     }
 
     private fun showInputCodeScreen() {
         val transaction = supportFragmentManager.beginTransaction().withAnimations()
-            .replace(R.id.fragmentContainer, InputCodeAuthFragment())
+            .replace(R.id.fragmentContainer, AuthInputCodeFragment())
 
         if (supportFragmentManager.fragments.isNotEmpty())
             transaction.addToBackStack(null)

@@ -43,4 +43,5 @@
     <string name="end_break_text">До конца перерыва осталось</string>
     <string name="end_early">Закончить раньше</string>
     <string name="main_menu">Главное меню</string>
+    <string name="done">Готово</string>
 </resources>
