@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CodeEditText">
+        <attr name="numberCount" format="integer" />
+        <attr name="showKeyboardOnFocus" format="boolean" />
+    </declare-styleable>
+
+</resources>

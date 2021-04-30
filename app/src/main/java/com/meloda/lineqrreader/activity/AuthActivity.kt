@@ -1,0 +1,46 @@
+package com.meloda.lineqrreader.activity
+
+import android.os.Bundle
+import android.view.WindowManager
+import com.meloda.lineqrreader.R
+import com.meloda.lineqrreader.activity.ui.AuthPresenter
+import com.meloda.lineqrreader.activity.ui.AuthView
+import com.meloda.lineqrreader.base.BaseActivity
+import com.meloda.lineqrreader.extensions.Extensions.withAnimations
+import com.meloda.lineqrreader.extensions.MoxyExtensions.viewPresenter
+import com.meloda.lineqrreader.fragment.AuthInputCodeFragment
+import com.meloda.lineqrreader.fragment.AuthInputNumberFragment
+
+class AuthActivity : BaseActivity(R.layout.activity_auth), AuthView {
+
+    val presenter: AuthPresenter by viewPresenter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+
+        presenter.state.observe({ lifecycleRegistry }) {
+            when (it) {
+                AuthPresenter.State.INPUT_NUMBER -> showInputNumberScreen()
+                AuthPresenter.State.INPUT_CODE -> showInputCodeScreen()
+            }
+        }
+    }
+
+    private fun showInputNumberScreen() {
+        supportFragmentManager.beginTransaction().withAnimations()
+            .replace(R.id.fragmentContainer, AuthInputNumberFragment())
+            .commit()
+    }
+
+    private fun showInputCodeScreen() {
+        val transaction = supportFragmentManager.beginTransaction().withAnimations()
+            .replace(R.id.fragmentContainer, AuthInputCodeFragment())
+
+        if (supportFragmentManager.fragments.isNotEmpty())
+            transaction.addToBackStack(null)
+
+        transaction.commit()
+    }
+}

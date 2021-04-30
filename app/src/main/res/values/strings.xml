@@ -1,3 +1,93 @@
 <resources>
-    <string name="app_name">LineQRReader</string>
+
+    <string name="app_name" translatable="false">Project.Sklad</string>
+
+    <string name="error_default_text">There is something unexpected&#8230;</string>
+    <string name="error_with_message">Error: %s</string>
+    <string name="error_invalid_phone_number">Invalid phone number</string>
+    <string name="error_enter_phone_number">Enter phone number</string>
+
+    <string name="action_menu_delete">Delete</string>
+
+    <string name="warning">Warning</string>
+
+    <string name="delete_scans_message">Are you sure want to delete these scans?</string>
+    <string name="delete_all_scans_message">Are you sure want to delete all scans?</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="auth_title">Authorization</string>
+    <string name="inventory_title">Inventory</string>
+
+    <string name="auth_enter_phone_number_message">Enter your phone number, we\'ll send you a code to confirm</string>
+    <string name="auth_enter_code_message">Enter code from sms</string>
+
+    <string name="next">Next</string>
+
+    <string name="send_code_again">Send the code again</string>
+
+    <string name="inventory">Inventory</string>
+
+    <string name="pause">Pause</string>
+
+    <string name="no_active_orders">No active orders</string>
+
+    <string name="logout">Logout</string>
+
+    <string name="start_collecting">Start collecting</string>
+
+    <string name="order_number">Order №%d</string>
+
+    <string name="orders_queue_number">There are %d %s in the queue</string>
+
+    <string name="order">Order</string>
+
+    <string name="orders">Orders</string>
+
+    <string name="count_short">Count</string>
+    <string name="cell_num">№ of cell</string>
+
+    <string name="count_num">%d pc</string>
+    <string name="collecting_title">Collecting</string>
+
+    <string name="end_collecting">End collecting</string>
+
+    <string name="remain_positions_with_numbers">Remain collect %d/%d positions</string>
+    <string name="all_positions_collected">All positions collected</string>
+    <string name="unassembled_products">Unassembled products</string>
+    <string name="assembled_products">Assembled products</string>
+
+    <string name="minute_short">M</string>
+    <string name="second_short">S</string>
+
+    <string name="input_barcode">Input barcode</string>
+    <string name="gave_to_courier">Gave to courier</string>
+
+    <string name="order_collection_time">Order collection time</string>
+
+    <string name="order_number_collected">Order №%d collected!</string>
+
+    <string name="end_break_text">Until the end of the break left</string>
+
+    <string name="end_early">End early</string>
+
+    <string name="main_menu">Main menu</string>
+
+    <string name="done">Done</string>
+    <string name="enter_barcode">Enter barcode</string>
+    <string name="count">Count</string>
+
+    <string name="barcode">Barcode</string>
+
+    <string name="end_inventory">End inventory</string>
+    <string name="indicate_deletion_cause">Indicate deletion cause</string>
+
+    <string name="expiry_date">Expiry date</string>
+    <string name="damaged_packaging">Damaged packaging</string>
+    <string name="product_chomped_by_mouses">Product chomped by mouses</string>
+    <string name="lack_of_product">Lack of product</string>
+    <string name="other_cause">Other cause</string>
+    <string name="comment">Comment</string>
+
 </resources>

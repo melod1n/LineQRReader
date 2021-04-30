@@ -1,8 +1,67 @@
 <resources>
 
-    <style name="Theme.LineQRReader" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
+    <style name="Theme" parent="Theme.MaterialComponents" />
+
+    <style name="Theme.Main" parent="Theme.MaterialComponents.Light.Bridge">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/blue_light</item>
+
+        <item name="toolbarStyle">@style/Theme.Toolbar</item>
+
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/white</item>
+
+        <item name="android:textAppearanceMedium">@style/Theme.Text.Medium</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="Theme.Inventory" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
+        <item name="colorPrimary">@color/inventory</item>
+        <item name="colorPrimaryDark">@color/inventory</item>
+        <item name="colorAccent">@color/blue_light</item>
+
+        <item name="toolbarStyle">@style/Theme.Toolbar</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="dividerHorizontal">@color/divider</item>
+        <item name="divider">@color/divider</item>
+    </style>
+
+    <style name="Theme.Collecting" parent="Theme.MaterialComponents.Light.Bridge">
+        <item name="colorPrimary">@color/collecting</item>
+        <item name="colorPrimaryDark">@color/collecting</item>
+        <item name="colorAccent">@color/blue_light</item>
+
+        <item name="toolbarStyle">@style/Theme.Toolbar</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="dividerHorizontal">@color/divider</item>
+        <item name="divider">@color/divider</item>
+    </style>
+
+    <style name="Theme.FullScreen.Translucent.Dialog" parent="@android:style/Theme.Material.NoActionBar.TranslucentDecor">
+        <item name="android:colorAccent">@color/blue_light</item>
+        <item name="android:textColorPrimary">#000000</item>
+    </style>
+
+    <style name="Theme.CollectedOrder" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="colorAccent">@color/blue_light</item>
+    </style>
+
+    <style name="Theme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:layout_height">?actionBarSize</item>
+    </style>
+
+    <style name="Theme.Text.Medium" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>
