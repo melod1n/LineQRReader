@@ -48,4 +48,11 @@
     <string name="count">Количество</string>
     <string name="barcode">Штрих-код</string>
     <string name="end_inventory">Закончить инвентаризацию</string>
+    <string name="indicate_deletion_cause">Укажите причину удаления</string>
+    <string name="expiry_date">Срок годности истёк</string>
+    <string name="damaged_packaging">Повреждена упаковка</string>
+    <string name="product_chomped_by_mouses">Товар погрызли мыши</string>
+    <string name="lack_of_product">Отсутствие товара</string>
+    <string name="other_cause">Другая причина</string>
+    <string name="comment">Комментарий</string>
 </resources>

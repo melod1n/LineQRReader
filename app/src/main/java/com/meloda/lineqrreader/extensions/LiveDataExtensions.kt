@@ -65,6 +65,8 @@ object LiveDataExtensions {
         value = arrayListOf()
     }
 
+    val <T> MutableLiveData<MutableList<T>>.indices get() = (value as MutableList<T>).indices
+
     val <T> MutableLiveData<MutableList<T>>.size get() = (value as MutableList<T>).size
 
     fun <T> MutableLiveData<MutableList<T>>.isEmpty(): Boolean {

@@ -48,7 +48,7 @@ class InventoryAdapter(context: Context, items: ArrayList<InventoryItem> = array
             binding.remove.setOnClickListener {
                 onSuggestDeleteListener?.onSuggest(position)
             }
-            binding.remove.imageTintList =
+            binding.removeIcon.imageTintList =
                 ColorStateList.valueOf(
                     if (item.isError()) removeErrorColor else removeDefaultColor
                 )

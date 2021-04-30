@@ -81,5 +81,13 @@
     <string name="barcode">Barcode</string>
 
     <string name="end_inventory">End inventory</string>
+    <string name="indicate_deletion_cause">Indicate deletion cause</string>
+
+    <string name="expiry_date">Expiry date</string>
+    <string name="damaged_packaging">Damaged packaging</string>
+    <string name="product_chomped_by_mouses">Product chomped by mouses</string>
+    <string name="lack_of_product">Lack of product</string>
+    <string name="other_cause">Other cause</string>
+    <string name="comment">Comment</string>
 
 </resources>

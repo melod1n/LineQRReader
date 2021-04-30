@@ -10,6 +10,7 @@ import com.meloda.lineqrreader.adapter.InventoryAdapter
 import com.meloda.lineqrreader.base.adapter.OnItemLongClickListener
 import com.meloda.lineqrreader.common.AppConstants
 import com.meloda.lineqrreader.dialog.BarcodeDialog
+import com.meloda.lineqrreader.dialog.DeleteItemDialog
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.removeAll
 import com.meloda.lineqrreader.extensions.LiveDataExtensions.requireValue
 import com.meloda.lineqrreader.listener.OnCompleteListener
@@ -25,7 +26,8 @@ import kotlin.random.Random
 
 class CollectingUnassembledPresenter :
     MvpPresenter<CollectingUnassembledView>(),
-    OnItemLongClickListener {
+    OnItemLongClickListener,
+    InventoryAdapter.OnSuggestDeleteListener {
 
     companion object {
         private const val MAX_ITEMS = 5
@@ -55,6 +57,7 @@ class CollectingUnassembledPresenter :
     private fun initAdapter(adapter: InventoryAdapter) {
         this.adapter = adapter.also {
             it.itemLongClickListener = this
+            it.onSuggestDeleteListener = this
         }
     }
 
@@ -62,7 +65,6 @@ class CollectingUnassembledPresenter :
         val items = arrayListOf<InventoryItem>()
 
         val titles = AppConstants.titles.split(",")
-        val alphabet = AppConstants.alphabet.split(",")
 
         for (i in 0..Random.nextInt(1, MAX_ITEMS)) {
             items.add(
@@ -176,5 +178,16 @@ class CollectingUnassembledPresenter :
             (context as CollectingActivity).supportFragmentManager,
             "barcode_dialog"
         )
+    }
+
+    override fun onSuggest(position: Int) {
+        DeleteItemDialog().apply {
+            this.onDoneListener = object : DeleteItemDialog.OnDoneListener {
+                override fun onDone(reason: String) {
+                    removeItemsFromAdapter(arrayListOf(adapter[position]))
+                }
+
+            }
+        }.show((context as CollectingActivity).supportFragmentManager, "delete_dialog")
     }
 }

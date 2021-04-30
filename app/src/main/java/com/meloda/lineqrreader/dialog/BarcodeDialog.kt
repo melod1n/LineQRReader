@@ -37,6 +37,7 @@ class BarcodeDialog(
 
         binding.countText.isVisible = showCount
         binding.count.isVisible = showCount
+        binding.count.showSoftInputOnFocus = false
 
         binding.done.setOnClickListener {
             if (binding.barcode.isEmpty()) return@setOnClickListener
