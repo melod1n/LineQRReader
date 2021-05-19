@@ -40,16 +40,13 @@ class InventoryActivity() :
         binding.cellNumber.text = getString(R.string.cell_num)
 
         binding.barcode.setOnClickListener {
-            BarcodeDialog(presenter.adapter, -1, true).apply {
-                onDoneListener = object : BarcodeDialog.OnDoneListener {
-                    override fun onDone(result: String) {
-                        lifecycleScope.launch { presenter.addItem(result) }
-                    }
+            val dialog = BarcodeDialog(presenter.adapter, -1, true)
+            dialog.onDoneListener = object : BarcodeDialog.OnDoneListener {
+                override fun onDone(result: String) {
+                    lifecycleScope.launch { presenter.addItem(result) }
                 }
-            }.show(
-                supportFragmentManager,
-                "barcode_dialog"
-            )
+            }
+            dialog.show(supportFragmentManager, "barcode_dialog")
         }
 
         binding.end.setOnClickListener {

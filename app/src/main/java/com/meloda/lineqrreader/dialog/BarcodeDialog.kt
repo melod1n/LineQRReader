@@ -1,9 +1,11 @@
 package com.meloda.lineqrreader.dialog
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.meloda.lineqrreader.R
 import com.meloda.lineqrreader.activity.CollectingActivity
@@ -22,10 +24,17 @@ class BarcodeDialog(
 
     var onDoneListener: OnDoneListener? = null
 
+    private var isRemovingText: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setStyle(STYLE_NORMAL, R.style.Theme_FullScreen_Translucent_Dialog)
+    }
+
+    private val onKeyListener = View.OnKeyListener { v, keyCode, event ->
+        isRemovingText = keyCode == KeyEvent.KEYCODE_DEL
+        false
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,8 +48,28 @@ class BarcodeDialog(
         binding.count.isVisible = showCount
         binding.count.showSoftInputOnFocus = false
 
+        binding.barcode.setOnKeyListener(onKeyListener)
+
+        binding.barcode.addTextChangedListener {
+            binding.done.isEnabled =
+                binding.count.string().isNotEmpty() && binding.barcode.string().isNotEmpty()
+
+            if (it.toString().length == 1 || it.toString().length == 8) {
+                if (isRemovingText) return@addTextChangedListener
+                binding.barcode.setText(it.toString() + " ")
+                binding.barcode.setSelection(binding.barcode.text.toString().length)
+            }
+        }
+
+        binding.done.isEnabled = false
+
+        binding.count.addTextChangedListener {
+            binding.done.isEnabled =
+                binding.count.string().isNotEmpty() && binding.barcode.string().isNotEmpty()
+        }
+
         binding.done.setOnClickListener {
-            if (binding.barcode.isEmpty()) return@setOnClickListener
+            if (binding.barcode.isEmpty() || binding.count.isEmpty()) return@setOnClickListener
 
             if (position == -1) {
                 onDoneListener?.onDone(binding.barcode.string())
